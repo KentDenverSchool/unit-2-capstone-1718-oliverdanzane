@@ -29,6 +29,16 @@ public class HashingDictionary <Key, Value> implements Dictionary{
     }
 
 
+
+
+
+
+
+
     
+    public Value get(Key key){
+        int hash = hash(key);
+        return hashMap[hash].get(hash);
+    }
 
 }
