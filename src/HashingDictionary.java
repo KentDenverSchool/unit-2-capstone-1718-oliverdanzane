@@ -4,7 +4,7 @@ import java.util.ArrayList;
 /*
 
  */
-public class HashingDictionary <Key, Value> implements Dictionary  {
+public class HashingDictionary <Key, Value> implements Dictionary{
 
 
     private int size;
@@ -22,11 +22,13 @@ public class HashingDictionary <Key, Value> implements Dictionary  {
         return index%hashCode;
     }
 
+
     public void put(Key key, Value value){
         int index = hash(key);
         hashMap[index].add(value);
     }
 
 
+    
 
 }

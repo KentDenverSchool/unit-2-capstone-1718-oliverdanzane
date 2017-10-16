@@ -1,4 +1,4 @@
-public interface Dictionary<Key, Value>{
+public interface Dictionary<Key extends Comparable, Value>{
     //add an key-value pair to the dictionary
     public void put(Key key, Value value);
 
