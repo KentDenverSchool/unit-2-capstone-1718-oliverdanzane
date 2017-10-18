@@ -43,8 +43,17 @@ public class HashingDictionary <Key, Value> implements Dictionary{
         }
     }
 
+
+      public Value remove(Key key){
+        int index = hash(key);
+        Value ret = (Value)hashMap[index];
+        hashMap[index]= null;
+        return ret;
+    }
+
     //returns the number of key-value pairs in the dictionary
     public int size(){
         return size;
     }
+
 }
