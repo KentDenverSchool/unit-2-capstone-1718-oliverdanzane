@@ -22,53 +22,26 @@ public class HashingDictionary <Key, Value> implements Dictionary{
         return index%hashCode;
     }
 
-
+    //add an key-value pair to the dictionary
     public void put(Key key, Value value){
         int index = hash(key);
         hashMap[index].add(value);
     }
 
+    //returns the Value at the entered Key
+    public Value get(Key key) {
+        int index = this.hash(key);
+        return hashMap[index].get(index);
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    //returns true if the dictionary is empty
+    public boolean isEmpty(){
+        if (size == 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
       public Value remove(Key key){
@@ -78,13 +51,9 @@ public class HashingDictionary <Key, Value> implements Dictionary{
         return ret;
     }
 
-
-
-
-
-
-
-
-
+    //returns the number of key-value pairs in the dictionary
+    public int size(){
+        return size;
+    }
 
 }
