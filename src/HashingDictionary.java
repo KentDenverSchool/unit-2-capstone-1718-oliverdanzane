@@ -31,4 +31,60 @@ public class HashingDictionary <Key, Value> implements Dictionary{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      public Value remove(Key key){
+        int index = hash(key);
+        Value ret = (Value)hashMap[index];
+        hashMap[index]= null;
+        return ret;
+    }
+
+
+
+
+
+
+
+
+
+
 }
