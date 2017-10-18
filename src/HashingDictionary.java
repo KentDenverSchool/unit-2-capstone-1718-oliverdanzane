@@ -31,6 +31,6 @@ public class HashingDictionary <Key, Value> implements Dictionary{
 //returns the Value at the entered Key
     public Value get(Key key) {
         int index = this.hash(key);
-        return hashMap[index].get(index); //may be the wrong value
+        return hashMap[index].get(index);
     }
 }
