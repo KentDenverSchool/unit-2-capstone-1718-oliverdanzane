@@ -2,10 +2,9 @@ import java.util.ArrayList;
 
 
 /*
-
+Program makes a HashMap and it has all of the fundamental methods
  */
 public class HashingDictionary <Key, Value> implements Dictionary{
-
 
     private int size;
     private int hashCode = 619;
@@ -43,8 +42,7 @@ public class HashingDictionary <Key, Value> implements Dictionary{
         }
     }
 
-
-      public Value remove(Key key){
+    public Value remove(Key key){
         int index = hash(key);
         Value ret = (Value)hashMap[index];
         hashMap[index]= null;
@@ -55,5 +53,36 @@ public class HashingDictionary <Key, Value> implements Dictionary{
     public int size(){
         return size;
     }
+
+    /*
+      Second Task - Dan
+      Someone please check this code. It doesn't check collisions (it's not supposed to).
+     */
+
+    //Updates m to the new value. Rehashes all keys
+    public void resize(int newM){
+        ArrayList<Value>[] hashMapCopy;
+        HashingDictionary temp = new HashingDictionary();
+
+        for(int i = 0; i < hashCode; i++) {
+            Key k = (Key) hashMap[i];
+            temp.put(temp.hash(i),hashMap[i].get(i));
+        }
+        //not sure if this works^^ just some ideas
+
+        //other idea [incorrect] I can't make a copy of hash map!
+//        hashMapCopy = new ArrayList[newM];
+//        for(int i = 0; i < hashCode; i++){
+//            Key k = (Key)hashMap[i];
+//
+//            hashMapCopy.put(k.hash(),hashMap[i].get(i));
+//           }
+//        hashMap = hashMapCopy;
+//        for (int i = 0; i < hashMapCopy.length; i++) {
+//            ArrayList<Value> values = hashMapCopy[i];
+
+        }
+    }
+
 
 }
