@@ -33,7 +33,9 @@ For this task you can overwrite an entry if you have a collision.
 
 #### Second Task
 
-Sometimes we start with a hashing space that is too large or too small for our key set. In these instances we would like to be able to make `m` larger to reduce collisions or smaller to save memory. To accomplish this you are going to add the following method to your data structure:
+Sometimes we start with a hashing space that is too large or too small for our key set.
+In these instances we would like to be able to make `m` larger to reduce collisions or smaller to save memory.
+To accomplish this you are going to add the following method to your data structure:
 
 ```java
 //Updates m to the new value. Rehashes all keys
