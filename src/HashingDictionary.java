@@ -4,11 +4,11 @@ import java.util.ArrayList;
 /*
 Program makes a HashMap and it has all of the fundamental methods
  */
-public class HashingDictionary <Key, Value> implements Dictionary{
+public class HashingDictionary <Key extends Comparable, Value> implements Dictionary{
 
     private int size;
     private int hashCode = 619;
-    private ArrayList<Value>[] hashMap;
+    private ArrayList<ArrayList>[] hashMap;
 
     public HashingDictionary(){
         size = 0;
@@ -18,19 +18,40 @@ public class HashingDictionary <Key, Value> implements Dictionary{
     public int hash(Key key){
         String s = key.toString();
         int index = s.hashCode();
-        return index%hashCode;
+        return index % hashCode;
     }
 
     //add an key-value pair to the dictionary
     public void put(Key key, Value value){
+        ArrayList<ArrayList> outer = new ArrayList();
+        ArrayList inner = new ArrayList();
+        inner.add(key);
+        inner.add(value);
+
         int index = hash(key);
-        hashMap[index].add(value);
+        if (hashMap[index].get(index) != null){
+            outer.add(inner);
+            hashMap[index] = outer;
+
+        } else {
+            hashMap[index].add(inner);
+        }
+        size++;
     }
 
     //returns the Value at the entered Key
     public Value get(Key key) {
         int index = this.hash(key);
-        return hashMap[index].get(index);
+
+        for (int i = 0; i < hashMap[index].size(); i++) {
+            Key k = (Key) hashMap[index].get(i).get(0);
+            if (k.compareTo(key) == 0){
+                return (Value) hashMap[index].get(i).get(1);
+            }
+        }
+
+        return null;
+
     }
 
     //returns true if the dictionary is empty
@@ -44,9 +65,14 @@ public class HashingDictionary <Key, Value> implements Dictionary{
 
     public Value remove(Key key){
         int index = hash(key);
-        Value ret = (Value)hashMap[index];
-        hashMap[index]= null;
-        return ret;
+        for (int i = 0; i < hashMap[index].size(); i++) {
+            if (((Key)hashMap[index].get(i)).compareTo(key) == 0){
+                hashMap[index].set(i, null);
+                return (Value) hashMap[index].get(i).get(1);
+            }
+        }
+        size--;
+        return null;
     }
 
     //returns the number of key-value pairs in the dictionary
@@ -62,7 +88,7 @@ public class HashingDictionary <Key, Value> implements Dictionary{
     //Updates m to the new value. Rehashes all keys
     public void resize(int newM){
         ArrayList<Value>[] hashMapCopy;
-        HashingDictionary temp = new HashingDictionary();
+
 
         for(int i = 0; i < hashCode; i++) {
             Key k = (Key) hashMap[i];
@@ -85,4 +111,11 @@ public class HashingDictionary <Key, Value> implements Dictionary{
     }
 
 
-}
+
+
+
+
+
+
+
+
