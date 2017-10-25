@@ -119,3 +119,27 @@ public class HashingDictionary <Key extends Comparable, Value> implements Dictio
 
 
 
+
+
+
+
+
+
+
+
+
+//_________________________________________________________________________________________________________
+//|  Operation               |  #  |   ArrayDictionary(1)      BinarySearchTree(2)      HashingDictionary(3)|
+//|__________________________|_____|________________________________________________________________________|
+//|                          |     |                                                                        |
+//|  Get a value given key   | (1) |          O(1)                   O(n)                     O(n)          |
+//|                          |     |                                                                        |
+//|  Insert a key-value pair | (2) |          O(n)                   O(n)                     O(n)          |
+//|                          |     |                                                                        |
+//|  Remove a key-value pair | (3) |          O(n)                   O(n)                     O(n)          |
+//|                          |     |                                                                        |
+//|  Space                   | (4) |          O(n)                   O(n)                     O(n)          |
+//|__________________________|_____|________________________________________________________________________|
+// Source: http://bigocheatsheet.com/
+//
+//(1,1) -->
