@@ -82,40 +82,28 @@ public class HashingDictionary <Key extends Comparable, Value> implements Dictio
 
     /*
       Second Task - Dan
-      Someone please check this code. It doesn't check collisions (it's not supposed to).
+      It doesn't check collisions (it's not supposed to).
+      Updates m to the new value. Rehashes all keys
      */
 
-    //Updates m to the new value. Rehashes all keys
     public void resize(int newM){
-        ArrayList<Value>[] hashMapCopy;
+        ArrayList<ArrayList>[] oldHashMap = this.hashMap;
+        this.hashMap = new ArrayList[newM];
+        this.hashCode = newM;
 
-
-        for(int i = 0; i < hashCode; i++) {
-            Key k = (Key) hashMap[i];
-            temp.put(temp.hash(i),hashMap[i].get(i));
-        }
-        //not sure if this works^^ just some ideas
-
-        //other idea [incorrect] I can't make a copy of hash map!
-//        hashMapCopy = new ArrayList[newM];
-//        for(int i = 0; i < hashCode; i++){
-//            Key k = (Key)hashMap[i];
-//
-//            hashMapCopy.put(k.hash(),hashMap[i].get(i));
-//           }
-//        hashMap = hashMapCopy;
-//        for (int i = 0; i < hashMapCopy.length; i++) {
-//            ArrayList<Value> values = hashMapCopy[i];
-
+        //make two, outer array and then the inner array list
+        for(int i = 0; i < oldHashMap.length; i++) {
+            //checks if I should traverse the array
+            if(oldHashMap[i] != null){
+                for(int j = 0; j < oldHashMap[i].size(); j++){
+                //rehash the key for the index
+                ArrayList newKeyValuePair = oldHashMap[i].get(j);
+                this.put((Key)newKeyValuePair.get(0), (Key)newKeyValuePair.get(1));
+                }
+            }
         }
     }
 
 
 
-
-
-
-
-
-
-
+    }
