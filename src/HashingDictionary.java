@@ -4,7 +4,7 @@ import java.util.ArrayList;
 /*
 Program makes a HashMap and it has all of the fundamental methods
  */
-public class HashingDictionary <Key extends Comparable, Value> implements Dictionary{
+public class HashingDictionary <Key extends Comparable, Value> {
 
     private int size;
     private int hashCode = 619;
@@ -99,7 +99,7 @@ public class HashingDictionary <Key extends Comparable, Value> implements Dictio
                 for(int j = 0; j < oldHashMap[i].size(); j++){
                 //rehash the key for the index
                 ArrayList newKeyValuePair = oldHashMap[i].get(j);
-                this.put((Key)newKeyValuePair.get(0), (Key)newKeyValuePair.get(1));
+                this.put((Key)newKeyValuePair.get(0), (Value)newKeyValuePair.get(1));
                 }
             }
         }
