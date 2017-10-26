@@ -37,6 +37,7 @@ public class HashingDictionary <Key extends Comparable, Value> implements Dictio
             hashMap[index].add(inner);
         }
         size++;
+        resize80Percent();
     }
 
     //returns the Value at the entered Key
@@ -128,13 +129,13 @@ public class HashingDictionary <Key extends Comparable, Value> implements Dictio
 
 
 
-//_________________________________________________________________________________________________________
+// _________________________________________________________________________________________________________
 //|  Operation               |  #  |   ArrayDictionary(1)      BinarySearchTree(2)      HashingDictionary(3)|
 //|__________________________|_____|________________________________________________________________________|
 //|                          |     |                                                                        |
 //|  Get a value given key   | (1) |          O(1)                   O(n)                     O(n)          |
 //|                          |     |                                                                        |
-//|  Insert a key-value pair | (2) |          O(n)                   O(n)                     O(n)          |
+//|  Insert a key-value pair | (2) |          O(n)                   O(n)                     O(1)          |
 //|                          |     |                                                                        |
 //|  Remove a key-value pair | (3) |          O(n)                   O(n)                     O(n)          |
 //|                          |     |                                                                        |
@@ -142,4 +143,42 @@ public class HashingDictionary <Key extends Comparable, Value> implements Dictio
 //|__________________________|_____|________________________________________________________________________|
 // Source: http://bigocheatsheet.com/
 //
-//(1,1) -->
+//(1,1) --> It is O(n) because it triggers a resize but normally it would be O(1)
+
+
+    public static void main(String[] args) {
+
+        //YOU ARE IN THE DRIVER BRANCH!!!!
+
+        HashingDictionary h = new HashingDictionary();
+
+        System.out.println("The size of the Hashing Dictionary should be 0 --> " + h.size());
+        System.out.println("The size of the Hashing Dictionary is 0, so it should be empty --> " + h.isEmpty());
+        h.put("Age", 10);
+        h.put("Age", 20);
+        h.put("Weight", 75);
+        h.put("Weight", 175);
+        System.out.println("The size of the Hashing Dictionary should be 4 --> " + h.size());
+        System.out.println("The size of the Hashing Dictionary is 4, so it should NOT be empty --> " + h.isEmpty());
+        System.out.println("The Value for Age is 10,20 --> " + h.get("Age"));
+        //^^What should happen here? Can you put something in the hashing dictionary that is the exact same Key?
+        System.out.println("The Value for Weight is 75,175 --> " + h.get("Weight"));
+        System.out.println("Removing \"Age\" should return 10,20 --> " + h.remove("Age"));
+        System.out.println("Removing \"Weight\" should return 75,175 --> " + h.remove("Weight"));
+        System.out.println("The size of the Hashing Dictionary should be 0 --> " + h.size());
+        System.out.println("The size of the Hashing Dictionary is 0, so it should be empty --> " + h.isEmpty());
+
+        //INCLUDE RESIZE (how would I test this??) WHEN DONE AND THE DOUBLING METHOD!!!
+
+
+
+
+
+    }
+
+    public void resize80Percent() {
+        if (size/hashCode >= 0.8) {
+            resize(hashCode*2);
+        }
+    }
+}
