@@ -125,10 +125,11 @@ public class HashingDictionary <Key extends Comparable, Value> implements Dictio
 
 
 // _________________________________________________________________________________________________________
+// _________________________________________________________________________________________________________
 //|  Operation               |  #  |   ArrayDictionary(1)      BinarySearchTree(2)      HashingDictionary(3)|
 //|__________________________|_____|________________________________________________________________________|
 //|                          |     |                                                                        |
-//|  Get a value given key   | (1) |          O(1)                   O(n)                     O(n)          |
+//|  Get a value given key   | (1) |          O(n)                   O(n)                     O(n)          |
 //|                          |     |                                                                        |
 //|  Insert a key-value pair | (2) |          O(n)                   O(n)                     O(1)          |
 //|                          |     |                                                                        |
@@ -139,6 +140,17 @@ public class HashingDictionary <Key extends Comparable, Value> implements Dictio
 // Source: http://bigocheatsheet.com/
 //
 //(1,1) --> It is O(n) because it triggers a resize but normally it would be O(1)
+//(1,2) --> It is O(n) because that is the worst case if the search tree is all on one side of n levels
+//(1,3) --> It is O(n) because it has to go through n amount of levels to get the value
+//(2,1) --> It is O(n) because in array dictionary it has to go n times through to get the value of n
+//(2,2) --> It is O(n) because in a search tree the worst case still has to go through everything on the one side
+//(2,3) --> It is O(1) because it inserts the key-value wherever the index is so it only goes through 1 time
+//(3,1) --> it is O(n) because removing still has to go through n times in the array dictionary
+//(3,2) --> It is O(n) because it has to go through the entire function and the worst case is still going through the entire side
+//(3,3) --> It is O(n) because in hashing dictionary it has to go through n times to find the value to remove
+//(4,1) --> It is O(n) because the worst cases are O(n) so that is the amount of space it will take up
+//(4,2) --> It is O(n) because the worst cases are O(n) so that is the amount of space it will take up
+//(4,3) --> It is O(n) because the worst cases are O(n) so that is the amount of space it will take up
 
 
     public static void main(String[] args) {
@@ -178,5 +190,5 @@ public class HashingDictionary <Key extends Comparable, Value> implements Dictio
     }
 }
 
-    }
+
 
