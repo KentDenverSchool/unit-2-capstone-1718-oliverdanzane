@@ -177,7 +177,7 @@ public class HashingDictionary <Key extends Comparable, Value> implements Dictio
     }
 
     public void resize80Percent() {
-        if (size/hashCode >= 0.8) {
+        if ((1.0*size)/hashCode >= 0.8) {
             resize(hashCode*2);
         }
     }
