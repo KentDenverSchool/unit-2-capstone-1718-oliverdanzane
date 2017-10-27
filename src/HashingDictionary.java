@@ -1,13 +1,16 @@
 import java.util.ArrayList;
 
-
 /*
-Program makes a HashMap and it has all of the fundamental methods
+ * HashingDictionary
+ * Program makes a HashMap and it has all of the fundamental methods
+ * Zane, Dan, Oliver
+ * 10/27/17
  */
+
 public class HashingDictionary <Key extends Comparable, Value> {
 
     private int size;
-    private int hashCode = 619;
+    private int hashCode = 5;
     private ArrayList<ArrayList>[] hashMap;
 
     public HashingDictionary(){
@@ -15,10 +18,11 @@ public class HashingDictionary <Key extends Comparable, Value> {
         hashMap = new ArrayList[hashCode];
     }
 
+    //Hashes a key using the hashcode
     public int hash(Key key){
         String s = key.toString();
         int index = s.hashCode();
-        return index % hashCode;
+        return Math.abs(index % hashCode);
     }
 
     //add an key-value pair to the dictionary
@@ -28,15 +32,29 @@ public class HashingDictionary <Key extends Comparable, Value> {
         inner.add(key);
         inner.add(value);
 
+        int count = 0;
+
         int index = hash(key);
-        if (hashMap[index].get(index) != null){
+        if (hashMap[index] == null) {
             outer.add(inner);
             hashMap[index] = outer;
+            size++;
 
         } else {
-            hashMap[index].add(inner);
+
+            while (count < hashMap[index].size()) {
+                if (((Key) hashMap[index].get(count).get(0)).compareTo(key) == 0) {
+                    hashMap[index].set(count, inner);
+                    break;
+                }
+                count++;
+            }
+
+            if (count >= hashMap[index].size()) {
+                hashMap[index].add(inner);
+                size++;
+            }
         }
-        size++;
         resize80Percent();
     }
 
@@ -64,15 +82,17 @@ public class HashingDictionary <Key extends Comparable, Value> {
         }
     }
 
+    //remove a key-value pair and return its value
     public Value remove(Key key){
         int index = hash(key);
         for (int i = 0; i < hashMap[index].size(); i++) {
-            if (((Key)hashMap[index].get(i)).compareTo(key) == 0){
-                hashMap[index].set(i, null);
-                return (Value) hashMap[index].get(i).get(1);
+            if (((Key)hashMap[index].get(i).get(0)).compareTo(key) == 0){
+                Value v = (Value) hashMap[index].get(i).get(1);
+                hashMap[index].remove(i);
+                size--;
+                return v;
             }
         }
-        size--;
         return null;
     }
 
@@ -81,12 +101,7 @@ public class HashingDictionary <Key extends Comparable, Value> {
         return size;
     }
 
-    /*
-      Second Task - Dan
-      It doesn't check collisions (it's not supposed to).
-      Updates m to the new value. Rehashes all keys
-     */
-
+    //Updates m to the new value. Rehashes all keys
     public void resize(int newM){
         ArrayList<ArrayList>[] oldHashMap = this.hashMap;
         this.hashMap = new ArrayList[newM];
@@ -100,31 +115,24 @@ public class HashingDictionary <Key extends Comparable, Value> {
                 //rehash the key for the index
                 ArrayList newKeyValuePair = oldHashMap[i].get(j);
                 this.put((Key)newKeyValuePair.get(0), (Value)newKeyValuePair.get(1));
+                    size--;
                 }
             }
         }
     }
 
+    //Doubles the size of m when more than the total number of key-value pairs stored exceeds 80% of m.
+    public void resize80Percent() {
+        if ((1.0*size)/hashCode >= 0.8) {
+            System.out.println("This is the current size (should be 4) --> " + size);
+            System.out.println("This is the current capacity of the Hashmap (should be 5) --> " + hashMap.length);
+            resize(hashCode*2);
+            System.out.println("This is the updated capacity of the Hashmap after the size exceeded 80% of the capacity (Should be 10 because 5 was doubled) --> " + hashMap.length);
 
+        }
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// _________________________________________________________________________________________________________
+// STEP 5:
 // _________________________________________________________________________________________________________
 //|  Operation               |  #  |   ArrayDictionary(1)      BinarySearchTree(2)      HashingDictionary(3)|
 //|__________________________|_____|________________________________________________________________________|
@@ -155,39 +163,32 @@ public class HashingDictionary <Key extends Comparable, Value> {
 
     public static void main(String[] args) {
 
-        //YOU ARE IN THE DRIVER BRANCH!!!!
+        //Driver
 
         HashingDictionary h = new HashingDictionary();
 
         System.out.println("The size of the Hashing Dictionary should be 0 --> " + h.size());
-        System.out.println("The size of the Hashing Dictionary is 0, so it should be empty --> " + h.isEmpty());
+        System.out.println("The size of the Hashing Dictionary is 0, so it should be empty (true) --> " + h.isEmpty());
+        System.out.println("First put");
         h.put("Age", 10);
-        h.put("Age", 20);
+        System.out.println("Second put ");
         h.put("Weight", 75);
-        h.put("Weight", 175);
+        System.out.println("Third put");
+        h.put("height", 50);
+        System.out.println("Fourth put");
+        h.put("numFingers", 10);
         System.out.println("The size of the Hashing Dictionary should be 4 --> " + h.size());
-        System.out.println("The size of the Hashing Dictionary is 4, so it should NOT be empty --> " + h.isEmpty());
-        System.out.println("The Value for Age is 10,20 --> " + h.get("Age"));
-        //^^What should happen here? Can you put something in the hashing dictionary that is the exact same Key?
-        System.out.println("The Value for Weight is 75,175 --> " + h.get("Weight"));
-        System.out.println("Removing \"Age\" should return 10,20 --> " + h.remove("Age"));
-        System.out.println("Removing \"Weight\" should return 75,175 --> " + h.remove("Weight"));
-        System.out.println("The size of the Hashing Dictionary should be 0 --> " + h.size());
-        System.out.println("The size of the Hashing Dictionary is 0, so it should be empty --> " + h.isEmpty());
-
-        //INCLUDE RESIZE (how would I test this??) WHEN DONE AND THE DOUBLING METHOD!!!
-
-
-
-
+        System.out.println("The size of the Hashing Dictionary is 4, so it should NOT be empty (false) --> " + h.isEmpty());
+        System.out.println("The Value for Age is 10 --> " + h.get("Age"));
+        System.out.println("The Value for Weight is 75 --> " + h.get("Weight"));
+        System.out.println("Removing \"Age\" should return 10 --> " + h.remove("Age"));
+        System.out.println("Removing \"Weight\" should return 75 --> " + h.remove("Weight"));
+        System.out.println("The size of the Hashing Dictionary should be 2 (removed Age and Weight) --> " + h.size());
+        System.out.println("The size of the Hashing Dictionary is 2, so it should be empty (false) --> " + h.isEmpty());
 
     }
 
-    public void resize80Percent() {
-        if ((1.0*size)/hashCode >= 0.8) {
-            resize(hashCode*2);
-        }
-    }
+
 }
 
 
